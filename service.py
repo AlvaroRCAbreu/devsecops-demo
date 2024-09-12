@@ -56,7 +56,7 @@ def index():
     return render_template_string("<html><body><a href=\"/product/list\">product list</a></body></html>")
 
 @app.route("/api/product/hash", methods=["GET"])
-def getProductHash():
+def get_Product_Hash():
     import hashlib
     products = db.get_products(db_connection, 100, 0)
     product_id = int(request.args.get('pid', 0))
@@ -64,7 +64,7 @@ def getProductHash():
         return "error, specify a product id", 500
     if product_id > len(products):
         return "invalid product id", 500
-    hash = hashlib.md5(products[product_id].name.encode('utf-8')).hexdigest()
+    hash = hashlib.sha256(products[product_id].name.encode('utf-8')).hexdigest()
     return hash
 
 # Your application should never run on all interfaces.
